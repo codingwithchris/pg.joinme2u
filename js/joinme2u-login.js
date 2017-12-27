@@ -10,8 +10,8 @@ var allowedNames 		= ['toby', 'milo', 'joe', 'heidi'];
 var allowedPasswords 	= ['toby', 'milo', 'joe', 'heidi'];
 
 
-var loginSuccess = function(){
-	window.location.replace( 'file:///Users/thedreamers/Desktop/localdev/Playground/joinme2u.dev/timeline.html' );
+var loginSuccess = function( formName ){
+	window.location.replace( 'file:///Users/thedreamers/Desktop/localdev/Playground/joinme2u.dev/user/' + formName + '/profile.html' );
 };
 
 
@@ -64,7 +64,7 @@ var submitEvents = function(formName, formPass){
 	if( checkName( formName ) != false &&  checkPassword( formPass ) != false ){
 
 		// We have a successful login
-		loginSuccess();
+		loginSuccess( formName );
 		
 
 	} else {
