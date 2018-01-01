@@ -223,70 +223,11 @@
                 <div class="col-md-7">
 
                   <!--Chat Messages in Right-->
-                  <div class="tab-content scrollbar-wrapper wrapper scrollbar-outer">
+                  <div id="chat-scroll-wrapper" class="tab-content scrollbar-wrapper wrapper scrollbar-outer">
                     <div class="tab-pane active" id="contact-1">
                       <div class="chat-body">
-                      	<ul class="chat-message">
-                      		<li class="left">
-                      			<img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
-                      			<div class="chat-item">
-                              <div class="chat-item-header">
-                              	<h5>Linda Lohan</h5>
-                              	<small class="text-muted">3 days ago</small>
-                              </div>
-                              <p>Hi honey, how are you doing???? Long time no see. Where have you been?</p>
-                            </div>
-                      		</li>
-                          <li class="right">
-                      			<img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-right" />
-                      			<div class="chat-item">
-                              <div class="chat-item-header">
-                              	<h5>Milo</h5>
-                              	<small class="text-muted">3 days ago</small>
-                              </div>
-                              <p>I have been on vacation</p>
-                            </div>
-                      		</li>
-                          <li class="right">
-                      			<img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-right" />
-                      			<div class="chat-item">
-                              <div class="chat-item-header">
-                              	<h5>Milo</h5>
-                              	<small class="text-muted">3 days ago</small>
-                              </div>
-                              <p>it was a great time for me. we had a lot of fun <i class="em em-blush"></i></p>
-                            </div>
-                      		</li>
-                          <li class="left">
-                      			<img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
-                      			<div class="chat-item">
-                              <div class="chat-item-header">
-                              	<h5>Linda Lohan</h5>
-                              	<small class="text-muted">3 days ago</small>
-                              </div>
-                              <p>that's cool I wish I were you <i class="em em-expressionless"></i></p>
-                            </div>
-                      		</li>
-                          <li class="right">
-                      			<img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-right" />
-                      			<div class="chat-item">
-                              <div class="chat-item-header">
-                              	<h5>Milo</h5>
-                              	<small class="text-muted">3 days ago</small>
-                              </div>
-                              <p><i class="em em-hand"></i></p>
-                            </div>
-                      		</li>
-                          <li class="left">
-                      			<img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
-                      			<div class="chat-item">
-                              <div class="chat-item-header">
-                              	<h5>Linda Lohan</h5>
-                              	<small class="text-muted">a min ago</small>
-                              </div>
-                              <p>Hi there, how are you</p>
-                            </div>
-                      		</li>
+                      	<ul id="toby-milo-chat" class="chat-message">
+                  
                       	</ul>
                       </div>
                     </div>
@@ -484,9 +425,9 @@
 
                   <div class="send-message">
                     <div class="input-group">
-                      <input type="text" class="form-control" placeholder="Type your message">
+                      <input id="toby-message" type="text" class="form-control" placeholder="Type your message">
                       <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">Send</button>
+                        <button id="send-milo-message" class="btn btn-default" type="button">Send</button>
                       </span>
                     </div>
                   </div>
@@ -618,6 +559,7 @@
     <script src="js/jquery.sticky-kit.min.js"></script>
     <script src="js/jquery.scrollbar.min.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/joinme2u-chat.js"></script>
 
   </body>
 </html>
