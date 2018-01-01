@@ -2,11 +2,11 @@
 /**
  * Define Global Variables
  */
-var height = 0;
 var chatCount = $('#toby-milo-chat li').length;
 var chatWindow = $('#toby-milo-chat');
 var scrollWrapper = $('#chat-scroll-wrapper');
-var replyDelayMultiplier = 1.5;
+var shortReplyDelayMultiplier = 1100;
+var longReplyDelayMultiplier = 350;
 var tobyMessageSubmit = $('#send-milo-message');
 var tobyMessage = $('#toby-message');
 var enterKeycode = '13';
@@ -16,7 +16,6 @@ var enterKeycode = '13';
 /**
  * Define Global Objects
  */
-
 
 
 /**
@@ -30,19 +29,6 @@ var User = function( name, image, link, side ){
     this.side = side;
 
 }
-
-
-
-/**
- * Define Message Defaults
- */
-
-var message = function(  ){
-	
-	
-};
-
-
 
 /**
  * Define new users
@@ -66,6 +52,33 @@ var toby = new User(
 );
 
 
+/**
+ * Define the structure for our message component
+ */
+var messageComponent = function ( user, message ){
+
+	var _component = [
+
+		'<li class="'+ user.side +'">',
+			'<img src="'+ user.image +'" alt="" class="profile-photo-sm pull-'+user.side+'">',
+
+			'<div class="chat-item">',
+				'<div class="chat-item-header">',
+					'<h5>' + user.name + '</h5>',
+				'</div>',
+
+				'<p>' + message + '</p>',
+
+			'</div>',
+
+		'</li>',
+
+	];
+
+	// Build Our message by joining our message array containing our data
+	return component = _component.join("");
+
+}
 
 
 /**
@@ -94,36 +107,118 @@ var isEven = function( value ){
 
 
 /**
+ * Get the number of words in a message
+ */
+
+var numberOfWordsInMessage = function( message ){
+
+	// Split the sentence into its parts
+	wordCount = message.split(" ");
+
+	// Get number of words
+	wordCount = wordCount.length;
+
+	return wordCount;
+
+}
+
+
+/**
+ * Create a response delay based on the length of the message to be delivered
+ */
+var autoResponseDelay = function( user, count, message ){
+
+	// Initialize our dely as 0 in case we don't have one
+	var delay = 0;
+
+	// If it's Milo's message, we will delay
+	if( user.name == 'Milo' ){
+
+		// If it's his first message, we need a custom delay that lasts longer than normal
+		if( count == 2 ) {
+
+			var delay = numberOfWordsInMessage( message ) * shortReplyDelayMultiplier + 2000;
+
+		} else {
+
+			// Handle short and long replies differently because og how the delay exponentially increases
+			// as the sentence gets longer
+
+			if( numberOfWordsInMessage( message ) <= 7 ){
+
+				// Otherwise we will use a standard delay.
+				var delay = numberOfWordsInMessage( message ) * shortReplyDelayMultiplier;	
+
+
+			} else {
+
+				// Otherwise we will use a standard delay.
+				var delay = numberOfWordsInMessage( message ) * longReplyDelayMultiplier;	
+
+			}
+
+			
+
+		}
+
+	}
+
+	return delay;
+
+}
+
+
+/**
+ * We need to scroll to the latest delivered message.
+ */
+var scrollToLatestMessage = function(){
+
+	// Get the scroll height and scroll ot the bottom
+	scrollWrapper[0].scrollTop = scrollWrapper[0].scrollHeight;
+
+}
+
+
+/**
  * Add a message to our chat bubble
  */
-var appendToChat = function( message, user ){
+var appendToChat = function( message, user, count ){
 
-	var _message = [
 
-		'<li class="'+ user.side +'">',
-			'<img src="'+ user.image +'" alt="" class="profile-photo-sm pull-'+user.side+'">',
+	// If it's milo's message
+	if( user == milo ){
 
-			'<div class="chat-item">',
-				'<div class="chat-item-header">',
-					'<h5>' + user.name + '</h5>',
-				'</div>',
+		// we need to use a delay in out reply to make it beleiveable
+		setTimeout(function(){
 
-				'<p>' + message + '</p>',
+			// Append our message
+			chatWindow.append(
 
-			'</div>',
+				// Creat a new message component
+				messageComponent( user, message )
 
-		'</li>',
+			);
 
-	];
+			// scroll to the new message
+			scrollToLatestMessage();
 
-	// Build Our message
-	newMessage = _message.join("");
+		}, autoResponseDelay( user, count, message )  );
 
-	// Add the new message tot he chat window
-	chatWindow.append( newMessage );
+	} else {
 
-	// Scroll to the newset message so we see everything
-	scrollToLatestMessage();
+		// Add the new message to the chat window
+		chatWindow.append(
+
+			// Create our message component
+			messageComponent( user, message )
+
+		);
+
+		// Scroll to the new message
+		scrollToLatestMessage();
+
+
+	 }
 
 };
 
@@ -166,28 +261,6 @@ var  responses = {
 };
 
 
-/**
- * Create a response delay based on the lengt of the message to be delivered
- */
-var autoResponseDelay = function( functionName ){
-
-
-
-
-
-}
-
-
-/**
- * We need to scroll to the latest delivered message.
- */
-var scrollToLatestMessage = function(){
-
-
-	scrollWrapper.scrollTop = scrollWrapper.scrollHeight;
-
-}
-
 
 /**
  * Fetch data that will help us get Milo's Auto Response
@@ -198,12 +271,12 @@ var scrollToLatestMessage = function(){
 	// Redefine our chat count after each message
 	// sent by Toby.
 	var chatCount = $('#toby-milo-chat li').length;
-	var newChatCount = chatCount + 1;
 
 
 	// After Toby send his message, the count will
 	// always be odd. In order to get the correct response,
 	// we need to add one to the count
+	var newChatCount = chatCount + 1;
 	
 
 	// After the appropriate wait, we submit
@@ -227,7 +300,7 @@ var submitAutoResponseToToby = function( responseNumber ){
 	// Build our response key dynamically
 	responseKey = 'r' + responseNumber;
 
-	appendToChat( responses[responseKey], milo );
+	appendToChat( responses[responseKey], milo, responseNumber );
 
 }
 
@@ -261,7 +334,7 @@ var submitTobyMessage = function(){
 	tobyMessage.empty();
 
 	// Officially add the message to chat
-	appendToChat( tobyMessage.val(), toby);
+	appendToChat( tobyMessage.val(), toby, 0);
 
 	// Now we see what Milo will respond with.
 	fetchMiloResponse();
@@ -274,7 +347,6 @@ var submitTobyMessage = function(){
  * enter kepress
  */
 var watchForMessageSubmit = function(){
-
 
 	/**
 	 * Submit Toby's message if the enter
@@ -289,12 +361,19 @@ var watchForMessageSubmit = function(){
 
 		if (keycode == enterKeycode ) {
 
-			// Submit the message
-	       submitTobyMessage();
+			// Only fire submit if we have a message
+
+			if( tobyMessage.val() != '' ){
+
+				// Submit the message
+	       		submitTobyMessage();
+
+	       		// Reset the message box
+	       		tobyMessage.val('');
+
+	       	}
 
 	    }
-
-		
 
 	});
 
@@ -303,11 +382,19 @@ var watchForMessageSubmit = function(){
 	// we want to submit our message
 	tobyMessageSubmit.click( function() {
 
-		// Submit the message
-		submitTobyMessage();
+		// Only fire submit if we have a message
+
+		if( tobyMessage.val() != '' ){
+
+			// Submit the message
+			submitTobyMessage();
+
+			// reset the message box
+			tobyMessage.val('');
+
+		}
 
 	});
-
 
 }
 
