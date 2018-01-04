@@ -2492,3 +2492,7 @@ i{
 .timeline-cover.milo{
   background: url("../user/milo/img/cover.jpg");
 }
+
+.timeline-cover.random{
+  background: url("../user/random/img/cover.jpg");
+}
