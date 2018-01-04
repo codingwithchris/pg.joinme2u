@@ -38,7 +38,7 @@ var User = function( name, image, link, side ){
 // Define Milo
 var milo = new User(
 	'Milo',
-	'https://placehold.it/100x100',
+	'user/milo/img/3.jpg',
 	'/users/milo/profile.html',
 	'left'
 );
@@ -46,7 +46,7 @@ var milo = new User(
 // Define Toby
 var toby = new User(
 	'Toby',
-	'https://placehold.it/100x100',
+	'user/toby/img/6.jpg',
 	'/users/toby/profile.html',
 	'right',
 );

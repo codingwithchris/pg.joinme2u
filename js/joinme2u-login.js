@@ -11,12 +11,12 @@ var allowedPasswords 	= ['toby', 'milo', 'joe', 'heidi'];
 
 
 var loginSuccess = function( formName ){
-	window.location.replace( 'file:///Users/thedreamers/Desktop/localdev/Playground/joinme2u.dev/user/' + formName + '/profile.html' );
+	window.location.replace( 'user/' + formName + '/profile.html' );
 };
 
 
 var loginFail = function(){
-	window.location.replace( 'file:///Users/thedreamers/Desktop/localdev/Playground/joinme2u.dev/index.html' );
+	window.location.replace( 'index.html' );
 };
 
 
@@ -65,7 +65,7 @@ var submitEvents = function(formName, formPass){
 
 		// We have a successful login
 		loginSuccess( formName );
-		
+
 
 	} else {
 
