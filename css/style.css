@@ -743,7 +743,7 @@ textarea{
   ==================================================*/  
 
 #lp-register{
-  background: linear-gradient(to right, rgba(0,0,0, 0.7) , rgba(0,0,0, 0.7)), url("http://placehold.it/1920x1280") fixed no-repeat;
+  background: url("../brand/join-login-bg.jpg") fixed no-repeat;
   background-size: cover;
   background-position: center;
   position: absolute;
@@ -2453,10 +2453,14 @@ i{
 
 
 #lp-register{
-      display: flex;
+    display: flex;
     min-height: 100vh;
     align-items: center;
     align-content: center;
+}
+
+.login-hint{
+  margin-top:  40px;
 }
 
 .intro-logo{
